@@ -1,14 +1,17 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
+    <ion-navbar>
+    <ion-title>Languages</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Filter Languages" showCancelButton (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <button menuClose ion-item *ngFor="let language of languages" (click)="openPage(language)">
+        {{language.title}}
       </button>
     </ion-list>
   </ion-content>
