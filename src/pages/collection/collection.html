@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <button ion-button menuToggle title="Menu">
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Learn X in Y Minutes</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="openPage()" title="Info">
         <ion-icon name="information-circle"></ion-icon>
       </button>
     </ion-buttons>

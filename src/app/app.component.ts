@@ -3,7 +3,7 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { CollectionPage } from '../pages/collection/collection';
-import { Page2 } from '../pages/page2/page2';
+import { ContentPage } from '../pages/content/content';
 
 interface Language { id?: number, name: string, title: string, url: string };
 
@@ -61,6 +61,6 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.push(ContentPage);
   }
 }

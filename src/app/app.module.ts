@@ -2,13 +2,15 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { CollectionPage } from '../pages/collection/collection';
-import { Page2 } from '../pages/page2/page2';
+import { ContentPage } from '../pages/content/content';
+import { InfoPage } from '../pages/info/info';
 
 @NgModule({
   declarations: [
     MyApp,
     CollectionPage,
-    Page2
+    ContentPage,
+    InfoPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -17,7 +19,8 @@ import { Page2 } from '../pages/page2/page2';
   entryComponents: [
     MyApp,
     CollectionPage,
-    Page2
+    ContentPage,
+    InfoPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
