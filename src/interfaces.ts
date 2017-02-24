@@ -1,5 +1,4 @@
 export interface Language {
-    id?: number,
     category? : string,
     contributors? : Array < string >,
     favorite? : boolean,
@@ -7,6 +6,8 @@ export interface Language {
     html? : string,
     scrolltop? : number,
     language? : string,
+    $loki?: number,
+    meta?: Object,
     title : string,
     url : string
 };
