@@ -18,6 +18,7 @@ export class ContentPage {
 
   ionViewDidEnter() {
     this.menu.enable(false);
+    this.contentEl.scrollTo(0, this.content.scrolltop || 0, 500);
   }
 
   ionViewWillLeave() {
