@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { Http } from '@angular/http';
+import { LoadingController } from 'ionic-angular';
 
 import { CollectionPage } from '../pages/collection/collection';
 import { ContentPage } from '../pages/content/content';
@@ -17,9 +18,12 @@ export class MyApp {
   rootPage: any = CollectionPage;
 
   languages: Array<Language>;
-  temp: Array<Language>;
+  temp: any;
 
-  constructor(public platform: Platform, public http: Http, public md: MdProvider) {
+  constructor(public platform: Platform,
+  public http: Http,
+  public md: MdProvider,
+  public loadingCtrl: LoadingController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -52,6 +56,14 @@ export class MyApp {
     }
   }
 
+  presentLoading() {
+    this.loadingCtrl.create({
+      cssClass: 'spinner-wrapper',
+      dismissOnPageChange: true,
+      duration: 5000
+    }).present();
+  }
+
   fetchLanguages() {
     return new Promise (resolve => {
       this.http.get('https://api.github.com/repos/adambard/learnxinyminutes-docs/contents/')
@@ -62,7 +74,6 @@ export class MyApp {
           if (/html\.markdown$/.test(name)) {
             languages.push({
               title: name.replace('.html.markdown', '').replace('-', ' '),
-              name,
               url: download_url
             });
           }
@@ -75,6 +86,7 @@ export class MyApp {
 
   fetchContent(language: Language) {
     return new Promise(resolve => {
+      this.presentLoading();
       this.http.get(language.url).subscribe(res => {
         if ('_body' in res) {
           const content = Object.assign({}, this.md.parse(res['_body']), language)
@@ -86,7 +98,7 @@ export class MyApp {
 
   openContentPage(language: Language) {
     this.fetchContent(language)
-    .then(content => {
+    .then((content: Language) => {
       this.nav.push(ContentPage, { content });
     });
   }

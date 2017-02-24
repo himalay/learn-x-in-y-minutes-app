@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavParams, MenuController } from 'ionic-angular';
 
-/*
-  Generated class for the Info page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-info',
   templateUrl: 'info.html'
 })
 export class InfoPage {
+  readme: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navParams: NavParams, public menu: MenuController) {
+    this.readme = navParams.get('readme');
+  }
+
+  ionViewDidEnter() {
+    this.menu.enable(false);
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InfoPage');
+    console.log(this.readme);
+  }
+
+  ionViewWillLeave() {
+    this.menu.enable(true);
   }
 
 }

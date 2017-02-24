@@ -1,30 +1,36 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Http } from '@angular/http';
-import { Language } from '../../interfaces';
+import { Component, ViewChild } from '@angular/core';
+import { MenuController, NavParams } from 'ionic-angular';
+import { Language } from '../../interfaces'
 
 @Component({
   selector: 'page-content',
   templateUrl: 'content.html'
 })
 export class ContentPage {
-  language: Language;
-  content: string;
+  content: Language;
+  @ViewChild('contentEl') contentEl: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
-    this.language = navParams.get('language');
-    this.fetchContent(this.language.url);
+  constructor(public navParams: NavParams, public menu: MenuController) {
+    this.content = navParams.get('content');
+  }
+
+  ionViewDidEnter() {
+    this.menu.enable(false);
   }
 
   ionViewDidLoad() {
-    console.log(this.language);
+    console.log(this.content);
   }
 
-  fetchContent(url: string) {
-    this.http.get(url).subscribe(res => {
-        if ('_body' in res) {
-          this.content = res['_body'];
-        }
-      });
+  ionViewWillLeave() {
+    this.menu.enable(true);
+    this.saveScrollPosition();
+  }
+
+  saveScrollPosition() {
+    const scrolltop: number = this.contentEl.scrollTop;
+    if ((this.content.scrolltop && Math.abs(scrolltop - this.content.scrolltop) || scrolltop) > 100) {
+      console.log(scrolltop);
+    }
   }
 }

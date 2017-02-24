@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Http } from '@angular/http';
 
+import { MdProvider } from './../../providers/md';
 import { InfoPage } from './../info/info';
 
 @Component({
@@ -9,13 +11,24 @@ import { InfoPage } from './../info/info';
 })
 export class CollectionPage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public nav: NavController, public http: Http, public md: MdProvider,) {
     
   }
 
-  openPage(page) {
-      // Reset the content nav to have just this page
-      // we wouldn't want the back button to show in this scenario
-      this.navCtrl.push(InfoPage);
+  fetchReadMe() {
+    return new Promise(resolve => {
+      this.http.get('https://raw.githubusercontent.com/adambard/learnxinyminutes-docs/master/README.markdown').subscribe(res => {
+        if ('_body' in res) {
+          resolve(this.md.compileMarkdown(res['_body']));
+        }
+      });
+    });
+  }
+
+  openInfoPage() {
+    this.fetchReadMe()
+    .then((readme: string) => {
+      this.nav.push(InfoPage, { readme });
+    });
   }
 }

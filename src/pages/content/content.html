@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>content</ion-title>
+    <ion-title>Where X = {{content.title}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only title="Add to Favorites">
         <ion-icon name="heart-outline"></ion-icon>
@@ -11,6 +11,12 @@
 </ion-header>
 
 
-<ion-content padding>
-  {{content}}
+<ion-content #contentEl padding>
+  <h4>Contributors: </h4>
+  <a class="contributor" *ngFor="let c of content.contributors" href="{{c[1]}}" target="_blank">
+    <ion-badge dark>{{c[0]}}</ion-badge>
+  </a>
+
+  <div class="container text-to-change" (change)="initHighlighting()" [innerHTML]="content.html">
+  </div>
 </ion-content>
