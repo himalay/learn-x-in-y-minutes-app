@@ -12,7 +12,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngClass]="{'empty-bg' : !languages.length}" [menuToggle]="languages.length">
+<ion-content [menuToggle]="languages.length">
+  <div class="empty-list" *ngIf="!languages.length">
+    <h1>[]</h1>
+    <p>Your reading list seems to be empty.</p>
+    <p>Let's change that!</p>
+  </div>
   <ion-card class="blueprint" *ngFor="let language of languages" (click)="openContentpage(language)">
     <ion-card-content class="card-title">
       <span class="hljs-comment">></span>{{ language.title }}

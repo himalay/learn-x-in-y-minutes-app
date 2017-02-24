@@ -1,7 +1,20 @@
 page-collection {
-    .empty-bg {
-        background: #FFF url("../assets/empty.png") no-repeat center;
-        background-size: contain;
+    .empty-list {
+        display: flex;
+        color: #aaa;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-size: 2em;
+        height: 90%;
+        h1 {
+            font-size: 5em;
+            font-family: monospace;
+            color: #ddd;
+        }
+        p {
+            margin-bottom: 0;
+        }
     }
     .card-title {
         cursor: pointer;
