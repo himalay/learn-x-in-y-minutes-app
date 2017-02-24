@@ -12,6 +12,7 @@
     <ion-list>
       <button menuClose ion-item *ngFor="let language of languages" (click)="openContentPage(language)">
         {{language.title}}
+        <ion-icon *ngIf="language.favorite" name='heart' item-right color="danger"></ion-icon>
       </button>
     </ion-list>
   </ion-content>

@@ -1,17 +1,24 @@
 @import '../../../node_modules/highlight.js/styles/default';
 
-.content {
-  .contributor {
-    margin: 0.1em;
-    line-height: 1.6em;
-    text-decoration: none;
-  }
-  .container {
-    margin-top: 2em;
-    pre {
-      code {
-        font-size: 0.9em;
-        overflow-wrap: normal;
+page-content {
+  .content {
+    background-color: #f9f1e4;
+    p {
+      line-height: 22pt;
+      font-size: 16px;
+    }
+    .contributor {
+      margin: 0.1em;
+      line-height: 1.6em;
+      text-decoration: none;
+    }
+    .container {
+      margin-top: 2em;
+      pre {
+        code {
+          font-size: 0.9em;
+          overflow-wrap: normal;
+        }
       }
     }
   }

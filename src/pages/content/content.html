@@ -2,8 +2,8 @@
   <ion-navbar color="primary">
     <ion-title>Where X = {{content.title}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only title="Add to Favorites">
-        <ion-icon name="heart-outline"></ion-icon>
+      <button ion-button icon-only title="Add to Favorites" (click)="toggleFavorite()">
+        <ion-icon [name]="content.favorite ? 'heart' : 'heart-outline'" [color]="content.favorite && 'danger'"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

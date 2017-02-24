@@ -6,11 +6,16 @@
     <ion-title>Learn X in Y Minutes</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="openInfoPage()" title="Info">
-        <ion-icon name="information-circle"></ion-icon>
+        <ion-icon name="information"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding [ngClass]="{'empty-bg' : true}">
+<ion-content [ngClass]="{'empty-bg' : !languages.length}" [menuToggle]="languages.length">
+  <ion-card class="blueprint" *ngFor="let language of languages" (click)="openContentpage(language)">
+    <ion-card-content class="card-title">
+      <span class="hljs-comment">></span>{{ language.title }}
+    </ion-card-content>
+  </ion-card>
 </ion-content>

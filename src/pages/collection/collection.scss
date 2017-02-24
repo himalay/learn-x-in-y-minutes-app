@@ -3,4 +3,14 @@ page-collection {
         background: #FFF url("../assets/empty.png") no-repeat center;
         background-size: contain;
     }
+    .card-title {
+        cursor: pointer;
+        font-family: monospace;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100px;
+        font-size: 5rem;
+        color: #212121;
+    }
 }

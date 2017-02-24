@@ -8,6 +8,7 @@ import { CollectionPage } from '../pages/collection/collection';
 import { ContentPage } from '../pages/content/content';
 import { Language } from '../interfaces';
 import { MdProvider } from '../providers/md';
+import { DbProvider } from '../providers/db';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,13 +24,13 @@ export class MyApp {
   constructor(public platform: Platform,
   public http: Http,
   public md: MdProvider,
-  public loadingCtrl: LoadingController) {
+  public loadingCtrl: LoadingController,
+  public db: DbProvider) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
+    
     this.fetchLanguages()
-    .then(languages => {
-        this.temp = languages;
+    .then(() => {
+        this.temp = this.db.toArray(this.db.languages.data);
         this.setLanguages();
     });
   }
@@ -40,8 +41,6 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
     });
@@ -65,21 +64,20 @@ export class MyApp {
   }
 
   fetchLanguages() {
-    return new Promise (resolve => {
+    return new Promise(resolve => {
+      if (this.db.languages.data && this.db.languages.data.length) return resolve();
       this.http.get('https://api.github.com/repos/adambard/learnxinyminutes-docs/contents/')
       .subscribe(res => {
-        let languages: Array<Language> = [];
         res.json()
         .map(({name, download_url}) => {
           if (/html\.markdown$/.test(name)) {
-            languages.push({
+            this.db.insert({
               title: name.replace('.html.markdown', '').replace('-', ' '),
               url: download_url
             });
           }
         });
-
-        resolve(languages);
+        resolve();
       });
     })
   }
@@ -87,10 +85,13 @@ export class MyApp {
   fetchContent(language: Language) {
     return new Promise(resolve => {
       this.presentLoading();
+
+      if (language.html) return resolve();
+
       this.http.get(language.url).subscribe(res => {
         if ('_body' in res) {
-          const content = Object.assign({}, this.md.parse(res['_body']), language)
-          resolve(content)
+          this.db.updateWhere(language.$loki, Object.assign(language, this.md.parse(res['_body'])));
+          resolve();
         }
       });
     })
@@ -98,7 +99,9 @@ export class MyApp {
 
   openContentPage(language: Language) {
     this.fetchContent(language)
-    .then((content: Language) => {
+    .then(() => {
+      let content = this.db.languages.find({ $loki: language.$loki });
+      content = content.length ? content[0] : language;
       this.nav.push(ContentPage, { content });
     });
   }

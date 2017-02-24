@@ -8,16 +8,14 @@ import { NavParams, MenuController } from 'ionic-angular';
 export class InfoPage {
   readme: string;
 
-  constructor(public navParams: NavParams, public menu: MenuController) {
-    this.readme = navParams.get('readme');
+  constructor(public navParams: NavParams, public menu: MenuController) {}
+
+  ionViewWillEnter() {
+    this.readme = this.navParams.get('readme');
   }
 
   ionViewDidEnter() {
     this.menu.enable(false);
-  }
-
-  ionViewDidLoad() {
-    console.log(this.readme);
   }
 
   ionViewWillLeave() {
