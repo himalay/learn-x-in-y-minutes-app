@@ -5,6 +5,7 @@ import { CollectionPage } from '../pages/collection/collection';
 import { ContentPage } from '../pages/content/content';
 import { InfoPage } from '../pages/info/info';
 import { DbProvider } from './../providers/db';
+import { MdProvider } from './../providers/md';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,6 @@ import { DbProvider } from './../providers/db';
     ContentPage,
     InfoPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, DbProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, DbProvider, MdProvider]
 })
 export class AppModule {}

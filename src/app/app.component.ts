@@ -6,6 +6,7 @@ import { Http } from '@angular/http';
 import { CollectionPage } from '../pages/collection/collection';
 import { ContentPage } from '../pages/content/content';
 import { Language } from '../interfaces';
+import { MdProvider } from '../providers/md';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,12 +19,15 @@ export class MyApp {
   languages: Array<Language>;
   temp: Array<Language>;
 
-  constructor(public platform: Platform, public http: Http) {
+  constructor(public platform: Platform, public http: Http, public md: MdProvider) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
-    this.fetchLanguages();
-
+    this.fetchLanguages()
+    .then(languages => {
+        this.temp = languages;
+        this.setLanguages();
+    });
   }
 
   setLanguages () {
@@ -49,28 +53,41 @@ export class MyApp {
   }
 
   fetchLanguages() {
-    this.http.get('https://api.github.com/repos/adambard/learnxinyminutes-docs/contents/')
-    .subscribe(res => {
-      let languages: Array<Language> = [];
-      res.json()
-      .map(({name, download_url}) => {
-        if (/html\.markdown$/.test(name)) {
-          languages.push({
-            title: name.replace('.html.markdown', '').replace('-', ' '),
-            name,
-            url: download_url
-          });
+    return new Promise (resolve => {
+      this.http.get('https://api.github.com/repos/adambard/learnxinyminutes-docs/contents/')
+      .subscribe(res => {
+        let languages: Array<Language> = [];
+        res.json()
+        .map(({name, download_url}) => {
+          if (/html\.markdown$/.test(name)) {
+            languages.push({
+              title: name.replace('.html.markdown', '').replace('-', ' '),
+              name,
+              url: download_url
+            });
+          }
+        });
+
+        resolve(languages);
+      });
+    })
+  }
+
+  fetchContent(language: Language) {
+    return new Promise(resolve => {
+      this.http.get(language.url).subscribe(res => {
+        if ('_body' in res) {
+          const content = Object.assign({}, this.md.parse(res['_body']), language)
+          resolve(content)
         }
       });
-
-      this.temp = languages;
-      this.setLanguages();
-    });
+    })
   }
 
   openContentPage(language: Language) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.push(ContentPage, { language });
+    this.fetchContent(language)
+    .then(content => {
+      this.nav.push(ContentPage, { content });
+    });
   }
 }
