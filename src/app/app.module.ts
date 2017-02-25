@@ -6,6 +6,7 @@ import { ContentPage } from '../pages/content/content';
 import { InfoPage } from '../pages/info/info';
 import { DbProvider } from './../providers/db';
 import { MdProvider } from './../providers/md';
+import { RequestProvider } from './../providers/request';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,6 @@ import { MdProvider } from './../providers/md';
     ContentPage,
     InfoPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, DbProvider, MdProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, DbProvider, MdProvider, RequestProvider]
 })
 export class AppModule {}
