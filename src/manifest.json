@@ -3,7 +3,7 @@
   "short_name": "Learn",
   "theme_color": "#212121",
   "background_color": "#000000",
-  "display": "browser",
+  "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
