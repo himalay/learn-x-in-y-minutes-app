@@ -8,7 +8,7 @@ export class DbProvider {
   languages : any;
 
   constructor() {
-    this.db = new loki('xiny');
+    this.db = new loki('learnDb');
     this.languages = this.db.addCollection('languages');
     this.importAll();
   }
@@ -38,22 +38,22 @@ export class DbProvider {
 
   saveAll() {
     try {
-      localStorage.setItem('xiny', JSON.stringify(this.db));
+      localStorage.setItem('learnDb', JSON.stringify(this.db));
     } catch(e) {
       // console.error(e);
    }
   }
 
   importAll() {
-    let xiny;
+    let learnDb;
     try {
-        xiny = localStorage.getItem('xiny');
+        learnDb = localStorage.getItem('learnDb');
     } catch(e) {
         console.error(e);
     }
     
-    if (xiny) {
-      this.db.loadJSON(xiny);
+    if (learnDb) {
+      this.db.loadJSON(learnDb);
         this.languages = this.db.getCollection('languages');
     }
   }
