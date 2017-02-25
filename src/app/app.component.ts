@@ -27,9 +27,13 @@ export class MyApp {
     this.request.isOnline$
       .subscribe(isOnline => {
         if (isOnline && !this.db.languages.data.length) {
-          this.request.fetchLanguages().then(() => {
+          this.request.presentLoading();
+          setTimeout(() => {
+            this.request.loadingSpinner.dismiss();
+            this.request.fetchLanguages().then(() => {
               this.fetchAndSetlanguage();
-          });
+            });
+          }, 5000);
         }
       });
   }
@@ -64,9 +68,7 @@ export class MyApp {
 
   openContentPage(language: Language) {
     this.request.fetchContent(language)
-    .then(() => {
-      let content = this.db.languages.find({ $loki: language.$loki });
-      content = content.length ? content[0] : language;
+    .then(content => {
       this.nav.push(ContentPage, { content });
     });
   }

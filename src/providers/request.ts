@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, AlertController } from 'ionic-angular';
+import { AlertController, Loading, LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { DbProvider } from '../providers/db';
@@ -12,6 +12,7 @@ const README = 'https://raw.githubusercontent.com/adambard/learnxinyminutes-docs
 @Injectable()
 export class RequestProvider {
   isOnline$: Observable<boolean>;
+  loadingSpinner: Loading;
 
   constructor(public http: Http,
   public loadingCtrl: LoadingController,
@@ -25,18 +26,21 @@ export class RequestProvider {
   }
 
   presentLoading() {
-    this.loadingCtrl.create({
+    this.loadingSpinner = this.loadingCtrl.create({
       cssClass: 'spinner-wrapper',
-      dismissOnPageChange: true,
-      duration: 5000
-    }).present();
+      dismissOnPageChange: true
+    });
+    this.loadingSpinner.present();
   }
 
-  presentAlert() {
+  presentOfflineAlert() {
     const exp = ['D\'Oh!', 'Ouch!', 'Uh oh!', 'Dag-nab-it!'];
     this.alertCtrl.create({
       title: exp[Math.floor(Math.random() * exp.length)],
-      subTitle: 'Unable to connect to the server.',
+      subTitle: `<div class="offline-alert">
+                  <img src="assets/offline.gif" />
+                  <p>Unable to connect to the server.</p>
+                 </div>`,
       buttons: ['OK']
     }).present();
   }
@@ -59,24 +63,30 @@ export class RequestProvider {
       },
       err => {
         console.error('[fetchLanguages]', err);
+        this.presentOfflineAlert();
       });
     });
   }
 
   fetchContent(language: Language) {
     return new Promise(resolve => {
-      this.presentLoading();
+      let content = this.db.languages.find({ $loki: language.$loki });
+      if (content.length && content[0].html) return resolve(content[0]);
 
-      if (language.html) return resolve();
+      this.presentLoading();
 
       this.http.get(language.url).subscribe(res => {
         if ('_body' in res) {
-          this.db.updateWhere(language.$loki, Object.assign(language, this.md.parse(res['_body'])));
-          resolve();
+          content = Object.assign(language, this.md.parse(res['_body']));
+          this.db.updateWhere(language.$loki, content);
+          this.loadingSpinner.dismiss();
+          resolve(content);
         }
       },
       err => {
         console.error('[fetchContent]', err);
+        this.presentOfflineAlert();
+        this.loadingSpinner.dismiss();
       });
     });
   }
@@ -94,10 +104,13 @@ export class RequestProvider {
         const replace = 'href="https://github.com/adambard/learnxinyminutes-docs/blob/master/CONTRIBUTING.markdown"';
         readme = this.md.compileMarkdown(res['_body']).replace(find, replace);
         localStorage.setItem('readme', readme);
+        this.loadingSpinner.dismiss();
         resolve(readme);
       },
       err => {
         console.error('[fetchReadMe]', err);
+        this.presentOfflineAlert();
+        this.loadingSpinner.dismiss();
       });
     });
   }
