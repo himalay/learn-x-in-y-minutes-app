@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, MenuController } from 'ionic-angular';
+import { NavParams, MenuController, NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-info',
@@ -8,10 +8,11 @@ import { NavParams, MenuController } from 'ionic-angular';
 export class InfoPage {
   readme: string;
 
-  constructor(public navParams: NavParams, public menu: MenuController) {}
-
-  ionViewWillEnter() {
-    this.readme = this.navParams.get('readme');
+  constructor(public navParams: NavParams,
+  public menu: MenuController,
+  public nav: NavController) {
+    this.readme = this.navParams.get('readme') || localStorage.getItem('readme');
+    if (!this.readme) this.nav.pop();
   }
 
   ionViewDidEnter() {

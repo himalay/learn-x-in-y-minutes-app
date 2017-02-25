@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavParams } from 'ionic-angular';
+import { MenuController, NavParams, NavController } from 'ionic-angular';
 
 import { DbProvider } from '../../providers/db';
 import { Language } from '../../interfaces'
@@ -12,8 +12,12 @@ export class ContentPage {
   content: Language;
   @ViewChild('contentEl') contentEl: any;
 
-  constructor(public navParams: NavParams, public menu: MenuController, public db: DbProvider) {
-    this.content = this.navParams.get('content');
+  constructor(public navParams: NavParams,
+  public menu: MenuController,
+  public db: DbProvider,
+  public nav: NavController) {
+    this.content = this.navParams.get('content') || {};
+    if (!this.content.html) this.nav.pop();
   }
 
   ionViewDidEnter() {
