@@ -31,7 +31,7 @@ export class CollectionPage {
       this.http.get('https://raw.githubusercontent.com/adambard/learnxinyminutes-docs/master/README.markdown')
       .subscribe(res => {
         if ('_body' in res) {
-          readme = this.md.compileMarkdown(res['_body']);
+          readme = this.md.compileMarkdown(res['_body']).replace('href="/CONTRIBUTING.markdown"', 'href="https://github.com/adambard/learnxinyminutes-docs/blob/master/CONTRIBUTING.markdown"');
           localStorage.setItem('readme', readme);
           resolve(readme);
         }

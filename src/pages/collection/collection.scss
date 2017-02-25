@@ -1,18 +1,24 @@
 page-collection {
+    .content {
+        background-image: url(/assets/bg-logo.png);
+        background-position: center center;
+    }
     .empty-list {
+        cursor: pointer;
         display: flex;
         color: #aaa;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        font-size: 2em;
-        height: 90%;
+        height: 100%;
         h1 {
-            font-size: 5em;
+            font-size: 8em;
             font-family: monospace;
             color: #ddd;
+            margin-top: -1em;
         }
         p {
+            font-size: 1.5em;
             margin-bottom: 0;
         }
     }
