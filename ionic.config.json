@@ -1,6 +1,6 @@
 {
-  "name": "X in Y Minutes",
-  "app_id": "np.com.himalay.xiny",
+  "name": "Learn X in Y Minutes",
+  "app_id": "np.com.himalay.learn",
   "v2": true,
   "typescript": true
 }
