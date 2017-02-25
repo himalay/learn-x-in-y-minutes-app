@@ -1,8 +1,12 @@
 {
-  "name": "X in Y Minutes",
-  "short_name": "X in Y",
-  "start_url": "index.html",
-  "display": "standalone",
+  "name": "Learn X in Y Minutes",
+  "short_name": "Learn",
+  "theme_color": "#212121",
+  "background_color": "#000000",
+  "display": "browser",
+  "orientation": "portrait",
+  "Scope": "/",
+  "start_url": "/",
   "icons": [{
       "src": "assets/icon/icon-72x72.png",
       "sizes": "72x72",
@@ -42,7 +46,5 @@
       "src": "assets/icon/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
-    }],
-  "theme_color": "#263238",
-  "background_color": "#607d8b"
+    }]
 }
