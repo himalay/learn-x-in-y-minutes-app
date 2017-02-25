@@ -15,7 +15,12 @@ import { MdProvider } from './../providers/md';
     InfoPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {}, {
+     links: [
+       { component: InfoPage, name: 'Readme', segment: 'readme' },
+       { component: ContentPage, name: 'Content', segment: 'content' }
+     ]
+  })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
