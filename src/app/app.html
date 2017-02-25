@@ -3,7 +3,7 @@
     <ion-navbar color="primary">
       <ion-title>Languages</ion-title>
     </ion-navbar>
-    <ion-toolbar color="primary">
+    <ion-toolbar *ngIf="languages" color="primary">
       <ion-searchbar placeholder="Filter Languages" showCancelButton (ionInput)="filterItems($event)"></ion-searchbar>
     </ion-toolbar>
   </ion-header>
