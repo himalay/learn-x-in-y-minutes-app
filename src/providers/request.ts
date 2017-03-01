@@ -34,7 +34,7 @@ export class RequestProvider {
   }
 
   presentOfflineAlert() {
-    const exp = ['D\'Oh!', 'Ouch!', 'Uh oh!', 'Dag-nab-it!'];
+    const exp = ['D\'Oh!', 'Zoinks!', 'Ouch!', 'Uh oh!', 'Dag-nab-it!'];
     this.alertCtrl.create({
       title: exp[Math.floor(Math.random() * exp.length)],
       subTitle: `<div class="offline-alert">
