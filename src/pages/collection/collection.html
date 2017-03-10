@@ -18,9 +18,16 @@
     <p>Your reading list seems to be empty.</p>
     <p>Let's change that!</p>
   </div>
-  <ion-card class="blueprint" *ngFor="let language of languages">
-    <button class="card-title" ion-item (click)="openContentpage(language)">
-      <span class="hljs-comment" item-left>></span>{{ language.title }}
-    </button>
-  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm *ngFor="let language of languages">
+        <ion-card class="blueprint" >
+          <button class="card-title" ion-item (click)="openContentpage(language)">
+            <span class="hljs-comment" item-left>></span>{{ language.title }}
+          </button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
