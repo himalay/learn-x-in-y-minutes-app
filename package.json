@@ -29,7 +29,6 @@
     "lokijs": "^1.4.3",
     "marked": "^0.3.6",
     "rxjs": "5.0.1",
-    "sw-toolbox": "3.4.0",
     "zone.js": "0.7.2"
   },
   "devDependencies": {
