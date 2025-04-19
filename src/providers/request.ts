@@ -7,7 +7,7 @@ import { MdProvider } from '../providers/md';
 import { Language } from '../interfaces';
 
 const LANGUAGES = 'https://api.github.com/repos/adambard/learnxinyminutes-docs/contents/';
-const README = 'https://raw.githubusercontent.com/adambard/learnxinyminutes-docs/master/README.markdown';
+const README = 'https://raw.githubusercontent.com/adambard/learnxinyminutes-docs/master/README.md';
 
 @Injectable()
 export class RequestProvider {
@@ -52,9 +52,9 @@ export class RequestProvider {
       .subscribe(res => {
         res.json()
         .map(({name, download_url}) => {
-          if (/html\.markdown$/.test(name)) {
+          if (/md$/.test(name)) {
             this.db.insert({
-              title: name.replace('.html.markdown', '').replace('-', ' '),
+              title: name.replace('.md', '').replace('-', ' '),
               url: download_url
             });
           }
@@ -100,8 +100,8 @@ export class RequestProvider {
 
       this.http.get(README)
       .subscribe(res => {
-        const find = 'href="/CONTRIBUTING.markdown"';
-        const replace = 'href="https://github.com/adambard/learnxinyminutes-docs/blob/master/CONTRIBUTING.markdown"';
+        const find = 'href="/CONTRIBUTING.md"';
+        const replace = 'href="https://github.com/adambard/learnxinyminutes-docs/blob/master/CONTRIBUTING.md"';
         readme = this.md.compileMarkdown(res['_body']).replace(find, replace);
         localStorage.setItem('readme', readme);
         this.loadingSpinner.dismiss();
